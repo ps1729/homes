@@ -2,7 +2,7 @@ import socket
 from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
 import socketserver
 import sys
-
+import testHandler
 
 class style1(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -29,9 +29,8 @@ else:
     port=8080
 
 print ("http://"+host+":"+str(port)+'/')
-
-
-with HTTPServer((host, port), style1) as server:
+# can use SimpleHTTPRequestHandler for default function
+with HTTPServer((host, port), testHandler.testHandler) as server:
  server.serve_forever(
     )
  server.server_close()
