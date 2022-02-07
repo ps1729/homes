@@ -27,6 +27,7 @@ class testHandler(BaseHTTPRequestHandler):
     The GET and HEAD requests are identical except that the HEAD
     request omits the actual contents of the file.
     """
+    givenPath = None
     __version__ = "0.6"
     server_version = "SimpleHTTP/" + __version__
     extensions_map = _encodings_map_default = {
@@ -38,7 +39,10 @@ class testHandler(BaseHTTPRequestHandler):
 
     def __init__(self, *args, directory=None, **kwargs):
         if directory is None:
-            directory = os.getcwd()
+            if self.givenPath is None:
+                directory = os.getcwd()
+            else:
+                directory = self.givenPath
         self.directory = os.fspath(directory)
         super().__init__(*args, **kwargs)
 

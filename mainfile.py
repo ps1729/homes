@@ -4,6 +4,7 @@ import socketserver
 import sys
 import testHandler
 
+
 class style1(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -27,12 +28,15 @@ if ('-p' in args):
     port=int(args[args.index('-p')+1])
 else:
     port=8080
-
 print ("http://"+host+":"+str(port)+'/')
+currentHandler=testHandler.testHandler
+maxIndex=max(args.index('-h')+1,args.index('-p')+1)+1
+if maxIndex<len(args):
+    currentHandler.givenPath=args[maxIndex]
+    print ("Path is set to",args[maxIndex])
 # can use SimpleHTTPRequestHandler for default function
-with HTTPServer((host, port), testHandler.testHandler) as server:
- server.serve_forever(
-    )
+with HTTPServer((host, port), currentHandler) as server:
+ server.serve_forever()
  server.server_close()
 
  print("Exiting")
